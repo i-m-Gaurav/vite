@@ -1,50 +1,16 @@
-import  { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
-const List = () => {
-  const [todos, setTodos] = useState([]); // State to store todos
-  const [loading, setLoading] = useState(true); // State to handle loading state
-  const [error, setError] = useState(null); // State to handle errors
+const List = ({ todos, onDelete }) => {
 
-  // Fetch todos from the backend
-  useEffect(() => {
-    const fetchTodos = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/api/todos"); // Replace with your backend URL
-        if (!response.ok) {
-          throw new Error("Failed to fetch todos");
-        }
-        const data = await response.json();
-        setTodos(data.data); // Update state with fetched todos
-      } catch (error) {
-        setError(error.message); // Set error message
-      } finally {
-        setLoading(false); // Set loading to false
-      }
-    };
 
-    fetchTodos();
-  }, []); // Empty dependency array ensures this runs only once on mount
-
-  // Display loading state
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  // Display error message
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  // Display todos
   return (
     <div>
-      <h1>Todo List</h1>
-      {todos.length > 0 ? (
+      {Array.isArray(todos) && todos.length > 0 ? (
         <ul>
-          {todos.map((todo) => (
+          {todos.slice().reverse().map((todo) => (
             <li key={todo.id}>
-              <h3>{todo.title}</h3>
-              <p>{todo.description}</p>
+              <h3>{todo.name}</h3>
+              <button onClick={() => onDelete(todo.id)}>Delete</button>
             </li>
           ))}
         </ul>
@@ -53,6 +19,18 @@ const List = () => {
       )}
     </div>
   );
+};
+
+List.propTypes = {
+  loading: PropTypes.bool.isRequired, // 'loading' must be a boolean and is required
+  error: PropTypes.string, // 'error' is optional and should be a string
+  todos: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, // 'id' can be a string or number
+      name: PropTypes.string.isRequired, // 'name' must be a string
+    })
+  ).isRequired, // 'todos' must be an array and is required
+  onDelete: PropTypes.func.isRequired, // 'onDelete' must be a function and is required
 };
 
 export default List;

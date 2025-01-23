@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import todoRoutes from './routes/todo.routes.js'
+import productRoutes from './routes/product.routes.js'
 import dotenv from 'dotenv'
 
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(express.json());
 
 
 app.use('/api/todos',todoRoutes)
+app.use('/api/products',productRoutes);
 
 
 
