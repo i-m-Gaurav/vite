@@ -29,5 +29,30 @@ export const useProductStore = create((set) => ({
   fetchProducts:  async () => {
         const response = await axios.get("http://localhost:3000/api/products");
         set({products : response.data});
+  },
+
+  deleteProduct : async (id) => {
+                await axios.delete(`http://localhost:3000/api/products/${id}`);
+                set((state)=> ({products : state.products.filter((products)=> products.id !== id)}));
+                return { success : true}
+  },
+
+  editProduct : async (id, updatedProduct) => {
+
+
+                console.log("geetting id on backend side", id);
+               
+                await axios.put(`http://localhost:3000/api/products/${id}`, updatedProduct);
+
+                set((state) => ({
+                    products: state.products.map((product)=> product.id === id ? {...product,...updatedProduct} : product )
+                }))
+
+                return {success : true};
   }
+
+
+
+
+
 }));
