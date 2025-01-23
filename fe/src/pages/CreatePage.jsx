@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useProductStore } from "../store/product";
+import { useNavigate } from "react-router-dom";
 
 const CreatePage = () => {
+    const navigate = useNavigate();
   const [newProduct, setNewProduct] = useState({
     name: "",
     description: "",
@@ -33,6 +35,7 @@ const CreatePage = () => {
             price: "",
             quantity: "",
           });
+          navigate('/');
         } else {
           alert(result.message); // Show error message
         }
