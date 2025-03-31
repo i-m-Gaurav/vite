@@ -13,6 +13,8 @@ const HomePage = () => {
     
   }
 
+  
+
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
