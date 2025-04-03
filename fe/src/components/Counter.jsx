@@ -1,9 +1,46 @@
-import  {useState} from 'react'
+import  {useState,useEffect} from 'react'
 
 
 const Counter = () => {
 
   const [count , setCount] = useState(0)
+  //mouse position
+   const [position , setPosition] = useState({x : 0 , y : 0})
+  
+  
+  useEffect (()=> {
+
+    // if (count === 10){
+    //   setTimeout(()=>{
+    //     setCount(0);
+    // },5000)
+
+    // clearTimeout();
+
+    // }
+
+    // get the mouse position using the mousemove event.
+
+    const handleMouseMove = (e) =>{
+      setPosition({x : e.clientX , y: e.clientY});
+
+      console.log(`Mouse at :(${e.clientX} , ${e.clientY})`);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('mousemove',handleMouseMove);
+    }
+      
+    
+
+  },[])
+
+  // mouse event
+
+ 
+
 
   // so the setCount here , we use the functional update,
   // basically we use a function to increment the value,
@@ -28,8 +65,11 @@ const Counter = () => {
 
   const handleClick = () => {
     setCount(Inc)
-    // this is called functional update.
+    // this is called functional update.useState
+    
   }
+
+  console.log("Count updated to :", count)
 
   const isPrime = (number) => {
 
@@ -59,6 +99,10 @@ const Counter = () => {
     <p>{isEven ? 'Even' : 'Odd'}</p>
     <p>{isPrime(count) ? 'Prime' : 'Not Prime'}</p>
     <button onClick={handleClick} disabled = {isMaxReached}>Add</button>
+
+    <h1>Mouse position </h1>
+
+    <p>X : {position.x} , Y: {position.y}</p>
     </>
   )
 }
