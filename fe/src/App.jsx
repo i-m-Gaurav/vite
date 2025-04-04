@@ -2,7 +2,7 @@
 import './App.css'
 
 import Counter from './components/Counter.jsx'
-import { useWindowResize } from './components/WinResize'
+import { useWindowResize } from '../hooks/WinResize'
 // import useWindowResize from './components/WinResize'
 
 
